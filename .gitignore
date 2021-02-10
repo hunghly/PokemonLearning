@@ -6,3 +6,4 @@ lib
 pyvenv.cfg
 __pycache__
 dataset
+pokedex.model
