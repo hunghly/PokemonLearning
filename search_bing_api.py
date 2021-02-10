@@ -25,7 +25,7 @@ MAX_RESULTS = 250
 GROUP_SIZE = 50
 # set the endpoint API URL
 # URL = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
-URL = "https://api.bing.microsoft.com/v7.0/search?responseFilter=images"
+URL = "https://api.bing.microsoft.com/v7.0/images/search"
 
 # when attempting to download images from the web both the Python
 # programming language and the requests library have a number of
@@ -41,32 +41,10 @@ term = args["query"]
 headers = {"Ocp-Apim-Subscription-Key" : keys.API_KEY}
 params = {"q": term, "offset": 0, "count": GROUP_SIZE}
 
-# make the search
-print("[INFO] searching Bing API for '{}'".format(term))
-search = requests.get(URL, headers=headers, params=params)
-search.raise_for_status()
-
-# grab the results from the search, including the total number of
-# estimated results returned by the Bing API
-results = search.json()
-# estNumResults = min(results["totalEstimatedMatches"], MAX_RESULTS)
-# print("ESTNUMRESULTS", estNumResults)
-# print("[INFO] {} total results for '{}'".format(estNumResults,
-	# term))
-
 # initialize the total number of images downloaded thus far
 total = 0
 
 # loop over the estimated number of results in `GROUP_SIZE` groups
-# for offset in range(0, MAX_RESULTS, GROUP_SIZE):
-	# update the search parameters using the current offset, then
-	# make the request to fetch the results
-	# print("[INFO] making request for group {}-{} of {}...".format(offset, offset + GROUP_SIZE, MAX_RESULTS))
-	# params["offset"] = offset
-	# search = requests.get(URL, headers=headers, params=params)
-	# search.raise_for_status()
-	# results = search.json()
-	# print("[INFO] saving images for group {}-{} of {}...".format(offset, offset + GROUP_SIZE, MAX_RESULTS))
 for offset in range(0, MAX_RESULTS, GROUP_SIZE):
     # loop over the results
     # print("results", results["images"])
@@ -76,14 +54,7 @@ for offset in range(0, MAX_RESULTS, GROUP_SIZE):
     search.raise_for_status()
     results = search.json()
     print("[INFO] saving images for group {}-{} of {}...".format(offset, offset + GROUP_SIZE, MAX_RESULTS))
-    print("size of results", len(results))
-    print("Results ", results)
-    try:
-        imagesJson = results["images"]
-    except:
-        print("No image field found!")
-        continue
-    for v in imagesJson["value"]:
+    for v in results["value"]:
         # try to download the image
         try:
             # make a request to download the image
@@ -107,13 +78,13 @@ for offset in range(0, MAX_RESULTS, GROUP_SIZE):
                 continue
 
 
-        # try to load the image from disk
-        image = cv2.imread(p)
-        # if the image is `None` then we could not properly load the
-        # image from disk (so it should be ignored)
-        if image is None:
-            print("[INFO] deleting: {}".format(p))
-            os.remove(p)
-            continue
-        # update the counter
-        total += 1
+        # # try to load the image from disk
+        # image = cv2.imread(p)
+        # # if the image is `None` then we could not properly load the
+        # # image from disk (so it should be ignored)
+        # if image is None:
+        #     print("[INFO] deleting: {}".format(p))
+        #     os.remove(p)
+        #     continue
+        # # update the counter
+        # total += 1
