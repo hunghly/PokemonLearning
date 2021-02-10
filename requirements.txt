@@ -1,0 +1,12 @@
+# run pip install -r requirements.txt to install all these standard ML libaries
+opencv-contrib-python
+scikit-image
+pillow
+imutils
+numpy
+tensorflow==2.4.1
+scikit-learn
+matplotlib
+progressbar2
+beautifulsoup4
+pandas

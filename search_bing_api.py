@@ -78,7 +78,7 @@ for offset in range(0, MAX_RESULTS, GROUP_SIZE):
                 continue
 
 
-        # # try to load the image from disk
+        # try to load the image from disk
         # image = cv2.imread(p)
         # # if the image is `None` then we could not properly load the
         # # image from disk (so it should be ignored)
@@ -86,5 +86,5 @@ for offset in range(0, MAX_RESULTS, GROUP_SIZE):
         #     print("[INFO] deleting: {}".format(p))
         #     os.remove(p)
         #     continue
-        # # update the counter
-        # total += 1
+        # update the counter
+        total += 1
